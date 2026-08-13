@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PELOPES - Operação HÓRUS</title>
+    <style>
+        /* ============================================
+           ESTILO MILITAR - PELOPES 63° BI
+           OPERAÇÃO HÓRUS
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Courier New', 'Consolas', monospace;
+            padding: 20px;
+            background: #0a0a0a;
+        }
+
+        .container {
+            background: linear-gradient(145deg, #1a1a1a 0%, #2a2a2a 40%, #3a3a3a 70%, #1a1a1a 100%);
+            border: 2px solid #8b0000;
+            border-radius: 16px;
+            padding: 35px 30px;
+            max-width: 780px;
+            width: 100%;
+            box-shadow: 
+                0 0 60px rgba(139, 0, 0, 0.2),
+                inset 0 0 80px rgba(0, 0, 0, 0.4),
+                0 20px 40px rgba(0, 0, 0, 0.8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(139, 0, 0, 0.05) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(139, 0, 0, 0.05) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .container::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            right: 3px;
+            bottom: 3px;
+            border: 1px solid rgba(139, 0, 0, 0.15);
+            border-radius: 13px;
+            pointer-events: none;
+        }
+
+        /* ===== CABEÇALHO ===== */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #8b0000;
+            padding-bottom: 18px;
+            flex-wrap: wrap;
+            gap: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        /* ===== LOGO GRANDE E TRANSPARENTE ===== */
+        .logo-brasao {
+            width: 130px;
+            height: 130px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            position: relative;
+            padding: 5px;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+        }
+
+        .logo-brasao img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: transparent;
+            display: block;
+            /* Sombra suave para destacar */
+            filter: drop-shadow(0 0 25px rgba(139, 0, 0, 0.15));
+            transition: transform 0.3s ease;
+        }
+
+        .logo-brasao img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Círculo decorativo sutil */
+        .logo-brasao::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 2px solid rgba(139, 0, 0, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* ===== TÍTULO ===== */
+        .title-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .title {
+            color: #cccccc;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 8px;
+            text-shadow: 0 0 30px rgba(139, 0, 0, 0.15);
+            line-height: 1;
+        }
+
+        .title small {
+            display: block;
+            font-size: 10px;
+            letter-spacing: 4px;
+            color: #888;
+            font-weight: normal;
+            margin-top: 3px;
+        }
+
+        .title .destaque {
+            color: #8b0000;
+        }
+
+        /* ===== CÓDIGO DA OPERAÇÃO ===== */
+        .cod-name {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: 1px solid #8b0000;
+            text-align: right;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .cod-name .label-op {
+            font-size: 10px;
+            color: #888;
+            letter-spacing: 2px;
+            display: block;
+        }
+
+        .cod-name .missao {
+            font-size: 20px;
+            color: #8b0000;
+            display: block;
+            font-weight: bold;
+            letter-spacing: 4px;
+            text-shadow: 0 0 20px rgba(139, 0, 0, 0.2);
+        }
+
+        .cod-name .ano {
+            font-size: 10px;
+            color: #666;
+            letter-spacing: 2px;
+        }
+
+        /* ===== TIMER ===== */
+        .timer {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 20px 0 18px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timer-block {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #3a3a3a;
+            border-radius: 8px;
+            padding: 14px 8px 10px;
+            text-align: center;
+            position: relative;
+            box-shadow: 
+                inset 0 0 30px rgba(0, 0, 0, 0.5),
+                0 0 20px rgba(0, 0, 0, 0.3);
+            transition: border-color 0.3s;
+        }
+
+        .timer-block:hover {
+            border-color: #8b0000;
+        }
+
+        .timer-block .number {
+            font-size: 42px;
+            font-weight: bold;
+            color: #cccccc;
+            text-shadow: 0 0 30px rgba(139, 0, 0, 0.1);
+            display: block;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 3px;
+            line-height: 1;
+        }
+
+        .timer-block .label {
+            font-size: 10px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 6px;
+            display: block;
+        }
+
+        .timer-block .label-small {
+            font-size: 8px;
+            color: #555;
+            letter-spacing: 1px;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* ===== STATUS ===== */
+        .status-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 18px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .status-card {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #3a3a3a;
+            border-radius: 6px;
+            padding: 12px 10px;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        .status-card:hover {
+            border-color: #8b0000;
+        }
+
+        .status-card .value {
+            font-size: 26px;
+            font-weight: bold;
+            color: #cccccc;
+            font-family: 'Courier New', monospace;
+            display: block;
+        }
+
+        .status-card .label {
+            font-size: 10px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 3px;
+        }
+
+        /* ===== PROGRESSO ===== */
+        .progress-section {
+            margin: 18px 0 12px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #888;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 22px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 12px;
+            border: 1px solid #3a3a3a;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2a0a0a, #8b0000, #cc0000);
+            border-radius: 12px;
+            transition: width 0.8s ease;
+            width: 0%;
+            position: relative;
+            box-shadow: 0 0 30px rgba(139, 0, 0, 0.2);
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 12px,
+                rgba(255, 255, 255, 0.03) 12px,
+                rgba(255, 255, 255, 0.03) 14px
+            );
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 11px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 12px rgba(0, 0, 0, 0.9), 0 2px 4px rgba(0, 0, 0, 0.8);
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        /* ===== STATUS DA MISSÃO ===== */
+        .mission-status {
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            border: 1px dashed #3a3a3a;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #cccccc;
+            letter-spacing: 2px;
+            background: rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .mission-status .blink {
+            animation: blink 1s infinite;
+            color: #8b0000;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+
+        /* ===== RODAPÉ ===== */
+        .dates {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #555;
+            border-top: 1px solid #2a2a2a;
+            padding-top: 14px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+            gap: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dates span {
+            font-family: 'Courier New', monospace;
+        }
+
+        .dates .highlight {
+            color: #8b0000;
+        }
+
+        /* ===== RESPONSIVIDADE ===== */
+        @media (max-width: 680px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .logo-area {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .title {
+                font-size: 22px;
+                letter-spacing: 4px;
+                text-align: center;
+            }
+
+            .title small {
+                font-size: 9px;
+            }
+
+            .logo-brasao {
+                width: 110px;
+                height: 110px;
+            }
+
+            .cod-name {
+                text-align: center;
+                width: 100%;
+            }
+
+            .cod-name .missao {
+                font-size: 18px;
+            }
+
+            .timer {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 6px;
+            }
+
+            .timer-block .number {
+                font-size: 28px;
+                letter-spacing: 1px;
+            }
+
+            .timer-block {
+                padding: 10px 4px 8px;
+            }
+
+            .status-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .dates {
+                flex-direction: column;
+                text-align: center;
+                gap: 4px;
+            }
+
+            .progress-text {
+                font-size: 9px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .container {
+                padding: 15px 10px;
+            }
+
+            .timer-block .number {
+                font-size: 20px;
+            }
+            
+            .timer-block .label {
+                font-size: 8px;
+            }
+
+            .title {
+                font-size: 18px;
+                letter-spacing: 2px;
+            }
+
+            .logo-brasao {
+                width: 90px;
+                height: 90px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- ===== CABEÇALHO ===== -->
+        <div class="header">
+            <div class="logo-area">
+                <!-- LOGO SEM FUNDO -->
+                <div class="logo-brasao">
+                    <img src="logo-pelopes-removebg-preview.png" alt="63° BI - PELOPES">
+                </div>
+                <div class="title-group">
+                    <div class="title">
+                        PELOPES
+                        <small><span class="destaque">63º</span> BATALHÃO DE INFANTARIA</small>
+                    </div>
+                </div>
+            </div>
+            <div class="cod-name">
+                <span class="label-op">OPERAÇÃO</span>
+                <span class="missao">HÓRUS</span>
+                <span class="ano">2026</span>
+            </div>
+        </div>
+
+        <!-- ===== TIMER ===== -->
+        <div class="timer">
+            <div class="timer-block">
+                <span class="number" id="dias">00</span>
+                <span class="label">DIAS</span>
+                <span class="label-small">D-</span>
+            </div>
+            <div class="timer-block">
+                <span class="number" id="horas">00</span>
+                <span class="label">HORAS</span>
+                <span class="label-small">H-</span>
+            </div>
+            <div class="timer-block">
+                <span class="number" id="minutos">00</span>
+                <span class="label">MINUTOS</span>
+                <span class="label-small">M-</span>
+            </div>
+            <div class="timer-block">
+                <span class="number" id="segundos">00</span>
+                <span class="label">SEGUNDOS</span>
+                <span class="label-small">S-</span>
+            </div>
+        </div>
+
+        <!-- ===== STATUS ===== -->
+        <div class="status-grid">
+            <div class="status-card">
+                <span class="value" id="diasPassados">0</span>
+                <span class="label">📅 DIAS DECORRIDOS</span>
+            </div>
+            <div class="status-card">
+                <span class="value" id="porcentagem">0%</span>
+                <span class="label">📊 PROGRESSO</span>
+            </div>
+        </div>
+
+        <!-- ===== BARRA DE PROGRESSO ===== -->
+        <div class="progress-section">
+            <div class="progress-header">
+                <span>▶ STATUS DA OPERAÇÃO</span>
+                <span id="progressLabel">0% CONCLUÍDO</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+                <div class="progress-text" id="progressText">AGUARDANDO INÍCIO</div>
+            </div>
+        </div>
+
+        <!-- ===== STATUS DA MISSÃO ===== -->
+        <div class="mission-status">
+            <span class="blink">●</span> 
+            <span id="statusFase">PREPARANDO OPERAÇÃO HÓRUS</span>
+            <span class="blink"> ●</span>
+        </div>
+
+        <!-- ===== DATAS ===== -->
+        <div class="dates">
+            <span>🚀 INÍCIO: <span class="highlight">08/08/2026</span></span>
+            <span>🎯 TÉRMINO: <span class="highlight">12/09/2026</span></span>
+            <span>⏱️ <span id="duracaoTotal">36</span> DIAS</span>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            const DATA_INICIO = new Date(2026, 7, 8);
+            const DATA_FIM = new Date(2026, 8, 11);
+            const TOTAL_DIAS = Math.ceil((DATA_FIM - DATA_INICIO) / (1000 * 60 * 60 * 24));
+
+            const elDias = document.getElementById('dias');
+            const elHoras = document.getElementById('horas');
+            const elMinutos = document.getElementById('minutos');
+            const elSegundos = document.getElementById('segundos');
+            const elDiasPassados = document.getElementById('diasPassados');
+            const elPorcentagem = document.getElementById('porcentagem');
+            const elProgressFill = document.getElementById('progressFill');
+            const elProgressLabel = document.getElementById('progressLabel');
+            const elProgressText = document.getElementById('progressText');
+            const elStatusFase = document.getElementById('statusFase');
+            const elDuracaoTotal = document.getElementById('duracaoTotal');
+
+            elDuracaoTotal.textContent = TOTAL_DIAS;
+
+            function padZero(num) {
+                return String(num).padStart(2, '0');
+            }
+
+            function atualizarFase(progresso) {
+                if (progresso >= 100) {
+                    elStatusFase.textContent = '✅ OPERAÇÃO HÓRUS CONCLUÍDA';
+                    document.querySelector('.mission-status .blink').style.animation = 'none';
+                    document.querySelector('.mission-status .blink').textContent = '✓';
+                } else if (progresso >= 75) {
+                    elStatusFase.textContent = '⚡ FASE FINAL - HÓRUS ATIVO!';
+                } else if (progresso >= 50) {
+                    elStatusFase.textContent = '🔥 MEIO DA OPERAÇÃO HÓRUS';
+                } else if (progresso >= 25) {
+                    elStatusFase.textContent = '⚔️ EM ANDAMENTO - HÓRUS';
+                } else if (progresso > 0) {
+                    elStatusFase.textContent = '🚀 OPERAÇÃO HÓRUS INICIADA';
+                } else {
+                    elStatusFase.textContent = '⏳ PREPARANDO OPERAÇÃO HÓRUS';
+                }
+            }
+
+            function atualizarCronometro() {
+                const agora = new Date();
+                let diff = DATA_FIM - agora;
+
+                if (diff <= 0) {
+                    elDias.textContent = '00';
+                    elHoras.textContent = '00';
+                    elMinutos.textContent = '00';
+                    elSegundos.textContent = '00';
+                    
+                    const progresso = 100;
+                    elPorcentagem.textContent = progresso + '%';
+                    elProgressFill.style.width = progresso + '%';
+                    elProgressLabel.textContent = progresso + '% CONCLUÍDO';
+                    elProgressText.textContent = '🎯 OPERAÇÃO HÓRUS CUMPRIDA!';
+                    elDiasPassados.textContent = TOTAL_DIAS;
+                    atualizarFase(progresso);
+                    return;
+                }
+
+                const segundosTotais = Math.floor(diff / 1000);
+                const dias = Math.floor(segundosTotais / (24 * 60 * 60));
+                const horas = Math.floor((segundosTotais % (24 * 60 * 60)) / (60 * 60));
+                const minutos = Math.floor((segundosTotais % (60 * 60)) / 60);
+                const segundos = segundosTotais % 60;
+
+                elDias.textContent = padZero(dias);
+                elHoras.textContent = padZero(horas);
+                elMinutos.textContent = padZero(minutos);
+                elSegundos.textContent = padZero(segundos);
+
+                let diasPassados = 0;
+                if (agora > DATA_INICIO) {
+                    diasPassados = Math.floor((agora - DATA_INICIO) / (1000 * 60 * 60 * 24));
+                }
+                if (diasPassados > TOTAL_DIAS) diasPassados = TOTAL_DIAS;
+                elDiasPassados.textContent = diasPassados;
+
+                let progresso = 0;
+                if (agora >= DATA_INICIO) {
+                    const decorrido = agora - DATA_INICIO;
+                    const totalMs = DATA_FIM - DATA_INICIO;
+                    progresso = (decorrido / totalMs) * 100;
+                    progresso = Math.min(100, Math.max(0, progresso));
+                }
+                
+                const progressoDisplay = Math.round(progresso);
+
+                elPorcentagem.textContent = progressoDisplay + '%';
+                elProgressFill.style.width = progressoDisplay + '%';
+                elProgressLabel.textContent = progressoDisplay + '% CONCLUÍDO';
+
+                if (progressoDisplay >= 100) {
+                    elProgressText.textContent = '🎯 HÓRUS CUMPRIDA!';
+                } else if (progressoDisplay > 0) {
+                    elProgressText.textContent = progressoDisplay + '% — ' + diasPassados + '/' + TOTAL_DIAS + ' DIAS';
+                } else {
+                    elProgressText.textContent = '⏳ AGUARDANDO INÍCIO...';
+                }
+
+                atualizarFase(progressoDisplay);
+            }
+
+            atualizarCronometro();
+            setInterval(atualizarCronometro, 1000);
+
+            console.log('🦅 PELOPES 63° BI - Operação HÓRUS');
+        })();
+    </script>
+
+</body>
+</html>
